@@ -84,7 +84,7 @@ public class WGPurge extends DataPurge {
 						continue;
 					}
 					// cleanup region default domain if we have something to cleanup
-					if (domainClearTask.hasPlayersToClear()) {
+					if (AutoSaveWorld.getInstance().getMainConfig().purgeWGRemoveMembers && domainClearTask.hasPlayersToClear()) {
 						queue.execute(domainClearTask);
 						incCleaned();
 					}

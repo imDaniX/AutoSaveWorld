@@ -51,6 +51,11 @@ public class BukkitAPIWorldEditRegeneration implements WorldEditRegenrationInter
 	private static final Map<BlockType, PlacementPriority> priorityMap = new HashMap<>();
 
 	// taken from WorldEdit MultiStageReorder class
+	
+	/*
+	 * TODO
+	 * Проверить, нужно ли обновить данный список
+	 */
 	static {
 		// Late
 		priorityMap.put(BlockTypes.WATER, PlacementPriority.LATE);

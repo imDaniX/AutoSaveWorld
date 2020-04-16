@@ -201,6 +201,8 @@ public class AutoSaveWorldConfig implements Config {
 	public boolean purgeWGRegenRg = false;
 	@ConfigOption(path = "purge.wg.noregenoverlapregion")
 	public boolean purgeWGNoregenOverlap = true;
+	@ConfigOption(path = "purge.wg.removemembers")
+    public boolean purgeWGRemoveMembers = true;
 	@ConfigOption(path = "purge.lwc.enabled")
 	public boolean purgeLWC = true;
 	@ConfigOption(path = "purge.lwc.deletepurgedblocks")
