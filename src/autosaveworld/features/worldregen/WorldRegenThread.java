@@ -30,10 +30,7 @@ import autosaveworld.core.AutoSaveWorld;
 import autosaveworld.core.logging.MessageLogger;
 import autosaveworld.features.restart.RestartWaiter;
 import autosaveworld.features.worldregen.plugins.DataProvider;
-import autosaveworld.features.worldregen.plugins.FactionsDataProvider;
 import autosaveworld.features.worldregen.plugins.GriefPreventionDataProvider;
-import autosaveworld.features.worldregen.plugins.PStonesDataProvider;
-import autosaveworld.features.worldregen.plugins.TownyDataProvider;
 import autosaveworld.features.worldregen.plugins.WorldGuardDataProvider;
 import autosaveworld.features.worldregen.storage.AnvilRegion;
 import autosaveworld.features.worldregen.storage.Coord;
@@ -80,21 +77,9 @@ public class WorldRegenThread extends Thread {
 				MessageLogger.debug("WG found, adding to copy list");
 				providers.add(new WorldGuardDataProvider(wtoregen));
 			}
-			if ((Bukkit.getPluginManager().getPlugin("Factions") != null) && config.worldRegenSaveFactions) {
-				MessageLogger.debug("Factions found, adding to copy list");
-				providers.add(new FactionsDataProvider(wtoregen));
-			}
 			if ((Bukkit.getPluginManager().getPlugin("GriefPrevention") != null) && config.worldRegenSaveGP) {
 				MessageLogger.debug("GriefPrevention found, adding to copy list");
 				providers.add(new GriefPreventionDataProvider(wtoregen));
-			}
-			if ((Bukkit.getPluginManager().getPlugin("Towny") != null) && config.worldregenSaveTowny) {
-				MessageLogger.debug("Towny found, adding to copy list");
-				providers.add(new TownyDataProvider(wtoregen));
-			}
-			if ((Bukkit.getPluginManager().getPlugin("PreciousStones") != null) && config.worldregenSavePStones) {
-				MessageLogger.debug("PreciousStones found, adding to copy list");
-				providers.add(new PStonesDataProvider(wtoregen));
 			}
 		} catch (Throwable t) {
 			MessageLogger.exception("Failed to initialize preserve chunk list", t);

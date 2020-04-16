@@ -52,7 +52,8 @@ public final class Throwables {
    * @return nothing will ever be returned; this return type is only for your convenience, as
    *         illustrated in the example above
    */
-  public static RuntimeException propagate(Throwable throwable) {
+  @SuppressWarnings("deprecation")
+public static RuntimeException propagate(Throwable throwable) {
     return com.google.common.base.Throwables.propagate(throwable);
   }
 
@@ -73,7 +74,8 @@ public final class Throwables {
    *
    * @param throwable throwable (may be {@code null})
    */
-  public static void propagateIfPossible(Throwable throwable) {
+  @SuppressWarnings("deprecation")
+public static void propagateIfPossible(Throwable throwable) {
     com.google.common.base.Throwables.propagateIfPossible(throwable);
   }
 

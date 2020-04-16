@@ -44,6 +44,7 @@ import autosaveworld.features.purge.weregen.UtilClasses.ItemSpawnListener;
 import autosaveworld.features.purge.weregen.WorldEditRegeneration.WorldEditRegenrationInterface;
 import autosaveworld.utils.BukkitUtils;
 
+@SuppressWarnings("deprecation")
 public class BukkitAPIWorldEditRegeneration implements WorldEditRegenrationInterface {
 
 	private ItemSpawnListener itemremover = new ItemSpawnListener();
@@ -135,8 +136,8 @@ public class BukkitAPIWorldEditRegeneration implements WorldEditRegenrationInter
 		BlockCategories.DOORS.getAll().forEach(type -> priorityMap.put(type, PlacementPriority.FINAL));
 		BlockCategories.BANNERS.getAll().forEach(type -> priorityMap.put(type, PlacementPriority.FINAL));
 		BlockCategories.SIGNS.getAll().forEach(type -> priorityMap.put(type, PlacementPriority.FINAL));
-		priorityMap.put(BlockTypes.SIGN, PlacementPriority.FINAL);
-		priorityMap.put(BlockTypes.WALL_SIGN, PlacementPriority.FINAL);
+        priorityMap.put(BlockTypes.SIGN, PlacementPriority.FINAL);
+        priorityMap.put(BlockTypes.WALL_SIGN, PlacementPriority.FINAL);
 		priorityMap.put(BlockTypes.CACTUS, PlacementPriority.FINAL);
 		priorityMap.put(BlockTypes.SUGAR_CANE, PlacementPriority.FINAL);
 		priorityMap.put(BlockTypes.PISTON_HEAD, PlacementPriority.FINAL);
@@ -155,7 +156,6 @@ public class BukkitAPIWorldEditRegeneration implements WorldEditRegenrationInter
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void regenerateRegion(World world, BlockVector3 minpoint, BlockVector3 maxpoint) {
 		BukkitWorld bw = new BukkitWorld(world);
 		EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession(bw, Integer.MAX_VALUE);

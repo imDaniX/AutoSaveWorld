@@ -42,7 +42,7 @@ public class AutoSaveWorldConfig implements Config {
 	public boolean commandOnlyFromConsole = false;
 	// save
 	@ConfigOption(path = "save.enabled")
-	public boolean saveEnabled = true;
+	public boolean saveEnabled = false;
 	@ConfigOption(path = "save.interval")
 	public int saveInterval = 900;
 	@ConfigOption(path = "save.broadcast")
@@ -52,7 +52,7 @@ public class AutoSaveWorldConfig implements Config {
 	@ConfigOption(path = "save.forceregioncachedump")
 	public boolean saveDumpRegionCache = true;
 	@ConfigOption(path = "save.onplugindisable")
-	public boolean saveOnASWDisable = true;
+	public boolean saveOnASWDisable = false;
 	// backup
 	@ConfigOption(path = "backup.enabled")
 	public boolean backupEnabled = false;

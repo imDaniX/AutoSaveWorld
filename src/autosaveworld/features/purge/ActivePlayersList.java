@@ -42,7 +42,8 @@ public class ActivePlayersList {
 
 	private OfflinePlayer[] players;
 
-	public void calculateActivePlayers(long awaytime) {
+	@SuppressWarnings("deprecation")
+    public void calculateActivePlayers(long awaytime) {
 		// fill lists
 		// add online players
 		for (Player player : BukkitUtils.getOnlinePlayers()) {

@@ -33,6 +33,11 @@ import autosaveworld.utils.ReflectionUtils;
 import autosaveworld.utils.SchedulerUtils;
 import autosaveworld.utils.Threads.IntervalTaskThread;
 
+/*
+ * TODO
+ * Удалить или исправить для новых версий
+ */
+
 public class AutoSaveThread extends IntervalTaskThread {
 
 	public AutoSaveThread() {
