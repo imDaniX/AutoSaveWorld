@@ -28,7 +28,6 @@ import autosaveworld.commands.subcommands.ReloadAllSubCommand;
 import autosaveworld.commands.subcommands.ReloadConfigMSGSubCommand;
 import autosaveworld.commands.subcommands.ReloadConfigSubCommand;
 import autosaveworld.commands.subcommands.RestartSubCommand;
-import autosaveworld.commands.subcommands.SaveSubCommand;
 import autosaveworld.commands.subcommands.ServerStatusSubCommand;
 import autosaveworld.commands.subcommands.StopCommand;
 import autosaveworld.commands.subcommands.VersionSubCommand;
@@ -61,7 +60,6 @@ public class NoTabCompleteCommandsHandler implements CommandExecutor {
         subcommandhandlers.put("pmanager", new PluginManagerSubCommand());
         subcommandhandlers.put("forcegc", new ForceGCSubCommand());
         subcommandhandlers.put("serverstatus", new ServerStatusSubCommand());
-        subcommandhandlers.put("save", new SaveSubCommand());
         subcommandhandlers.put("backup", new BackupSubCommand());
         subcommandhandlers.put("purge", new PurgeSubCommand());
         subcommandhandlers.put("restart", new RestartSubCommand());
@@ -84,11 +82,7 @@ public class NoTabCompleteCommandsHandler implements CommandExecutor {
         }
 
         // now handle commands
-        if (commandName.equalsIgnoreCase("autosave")) {
-            // "autosave" command handler
-            AutoSaveWorld.getInstance().getSaveThread().triggerTaskRun();
-            return true;
-        } else if (commandName.equalsIgnoreCase("autobackup")) {
+        if (commandName.equalsIgnoreCase("autobackup")) {
             // "autobackup" command handler
             AutoSaveWorld.getInstance().getBackupThread().triggerTaskRun();
             return true;

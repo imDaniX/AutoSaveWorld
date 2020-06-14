@@ -26,6 +26,8 @@ import autosaveworld.features.backup.localfs.LocalFSBackup;
 import autosaveworld.features.backup.script.ScriptBackup;
 import autosaveworld.features.backup.sftp.SFTPBackup;
 import autosaveworld.utils.Threads.IntervalTaskThread;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -66,7 +68,8 @@ public class AutoBackupThread extends IntervalTaskThread {
         AutoSaveWorldConfig config = AutoSaveWorld.getInstance().getMainConfig();
 
         if (config.backupsaveBefore) {
-            AutoSaveWorld.getInstance().getSaveThread().performSave();
+            for(World world : Bukkit.getWorlds())
+                world.save();
         }
 
         long timestart = System.currentTimeMillis();
