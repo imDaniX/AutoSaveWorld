@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 package autosaveworld.features.restart;
@@ -58,7 +58,7 @@ public class CrashRestartThread extends SIntervalTaskThread {
         MessageLogger.debug("Delaying crashrestart checker start for " + delay + " seconds");
         try {
             Thread.sleep(delay * 1000L);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
         // schedule sync task in, this will provide us info about when the last server tick occured
         SchedulerUtils.scheduleSyncRepeatingTask(() -> syncticktime = System.currentTimeMillis(), 0, 20);
@@ -106,12 +106,12 @@ public class CrashRestartThread extends SIntervalTaskThread {
         // disable spigot async catcher
         try {
             AsyncCatcher.enabled = false;
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
         // disable paper timings so async access doesn't print unneeded exceptions
         try {
             MinecraftTimings.stopServer();
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
         log.log(Level.SEVERE, "Disabling plugins");
         // unload plugins

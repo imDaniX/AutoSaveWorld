@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 package autosaveworld.features.processmanager;
@@ -29,14 +29,14 @@ import java.util.Queue;
 
 public class RunningProcess {
 
-    private String[] args;
+    private final String[] args;
 
     public RunningProcess(String[] args) {
         this.args = args.clone();
     }
 
     protected Process p;
-    protected Queue<String> output = new LinkedList<String>();
+    protected final Queue<String> output = new LinkedList<>();
 
     public void start(CommandSender sender) {
         sender.sendMessage("Starting process");
@@ -50,18 +50,15 @@ public class RunningProcess {
             sender.sendMessage(e.getMessage());
             return;
         }
-        new Thread() {
-            @Override
-            public void run() {
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-                    String line;
-                    while ((p != null) && ((line = br.readLine()) != null)) {
-                        output.add(line);
-                    }
-                } catch (IOException e) {
+        new Thread(() -> {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+                String line;
+                while ((p != null) && ((line = br.readLine()) != null)) {
+                    output.add(line);
                 }
+            } catch (IOException ignored) {
             }
-        }.start();
+        }).start();
         sender.sendMessage("Process started");
     }
 
@@ -74,7 +71,7 @@ public class RunningProcess {
         try {
             int exit = p.exitValue();
             sender.sendMessage("Process finished exit code " + exit);
-        } catch (IllegalThreadStateException e) {
+        } catch (IllegalThreadStateException ignored) {
         }
         sender.sendMessage("Process output print finished");
     }

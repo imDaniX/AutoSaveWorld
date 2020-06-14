@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package autosaveworld.features.worldregen;
@@ -57,18 +57,15 @@ public class WorldRegenThread extends Thread {
     private void doWorldRegen() {
 
         BukkitUtils.registerListener(new AntiJoinListener());
-        SchedulerUtils.callSyncTaskAndWait(new Runnable() {
-            @Override
-            public void run() {
-                for (Player p : BukkitUtils.getOnlinePlayers()) {
-                    MessageLogger.kickPlayer(p, AutoSaveWorld.getInstance().getMessageConfig().messageWorldRegenKick);
-                }
+        SchedulerUtils.callSyncTaskAndWait(() -> {
+            for (Player p : BukkitUtils.getOnlinePlayers()) {
+                MessageLogger.kickPlayer(p, AutoSaveWorld.getInstance().getMessageConfig().messageWorldRegenKick);
             }
         });
 
         final World wtoregen = Bukkit.getWorld(worldtoregen);
 
-        final ArrayList<DataProvider> providers = new ArrayList<DataProvider>();
+        final ArrayList<DataProvider> providers = new ArrayList<>();
 
         AutoSaveWorldConfig config = AutoSaveWorld.getInstance().getMainConfig();
         try {
@@ -92,45 +89,39 @@ public class WorldRegenThread extends Thread {
             }
         }
 
-        ArrayList<WorldRegenTask> tasks = new ArrayList<WorldRegenTask>();
+        ArrayList<WorldRegenTask> tasks = new ArrayList<>();
 
-        WorldRegenTask clearchunks = new WorldRegenTask() {
-            @Override
-            public void run() throws Throwable {
-                File regionfolder = new File(worldRegionFolder);
-                for (File regionfile : FileUtils.safeListFiles(regionfolder)) {
-                    MessageLogger.printOut("Processing regionfile " + regionfile.getName());
-                    try {
-                        AnvilRegion region = new AnvilRegion(regionfolder, regionfile.getName());
-                        if (preservechunks.hasChunks(region.getX(), region.getZ())) {
-                            region.loadFromDisk();
-                            Set<Coord> localChunks = preservechunks.getChunks(region.getX(), region.getZ());
-                            for (Coord columnchunk : region.getChunks()) {
-                                if (!localChunks.contains(columnchunk)) {
-                                    region.removeChunk(columnchunk);
-                                }
+        WorldRegenTask clearchunks = () -> {
+            File regionfolder = new File(worldRegionFolder);
+            for (File regionfile : FileUtils.safeListFiles(regionfolder)) {
+                MessageLogger.printOut("Processing regionfile " + regionfile.getName());
+                try {
+                    AnvilRegion region = new AnvilRegion(regionfolder, regionfile.getName());
+                    if (preservechunks.hasChunks(region.getX(), region.getZ())) {
+                        region.loadFromDisk();
+                        Set<Coord> localChunks = preservechunks.getChunks(region.getX(), region.getZ());
+                        for (Coord columnchunk : region.getChunks()) {
+                            if (!localChunks.contains(columnchunk)) {
+                                region.removeChunk(columnchunk);
                             }
-                            region.saveToDisk();
-                        } else {
-                            region.delete();
                         }
-                    } catch (Throwable e) {
-                        MessageLogger.printOut("Failed to process regionfile " + regionfile.getName());
-                        MessageLogger.printOutException(e);
+                        region.saveToDisk();
+                    } else {
+                        region.delete();
                     }
+                } catch (Throwable e) {
+                    MessageLogger.printOut("Failed to process regionfile " + regionfile.getName());
+                    MessageLogger.printOutException(e);
                 }
             }
         };
         tasks.add(clearchunks);
 
         if (config.worldRegenRemoveSeedData) {
-            WorldRegenTask removeseed = new WorldRegenTask() {
-                @Override
-                public void run() throws Throwable {
-                    new File(wtoregen.getWorldFolder(), "level.dat").delete();
-                    new File(wtoregen.getWorldFolder(), "level.dat_old").delete();
-                    new File(wtoregen.getWorldFolder(), "uid.dat").delete();
-                }
+            WorldRegenTask removeseed = () -> {
+                new File(wtoregen.getWorldFolder(), "level.dat").delete();
+                new File(wtoregen.getWorldFolder(), "level.dat_old").delete();
+                new File(wtoregen.getWorldFolder(), "uid.dat").delete();
             };
             tasks.add(removeseed);
         }

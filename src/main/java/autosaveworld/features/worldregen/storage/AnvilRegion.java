@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package autosaveworld.features.worldregen.storage;
@@ -30,7 +30,7 @@ public class AnvilRegion {
     private final int columnX;
     private final int columnZ;
 
-    public AnvilRegion(File regionfolder, String filename) throws Throwable {
+    public AnvilRegion(File regionfolder, String filename) {
         this.regionfolder = regionfolder;
         String[] split = filename.split("[.]");
         if (split.length != 4) {
@@ -43,7 +43,7 @@ public class AnvilRegion {
     private static final int dataBlockSize = 4096;
 
     private final int[] timestamps = new int[1024];
-    private final HashMap<Coord, byte[]> chunks = new HashMap<Coord, byte[]>();
+    private final HashMap<Coord, byte[]> chunks = new HashMap<>();
 
     public int getX() {
         return columnX;
@@ -54,7 +54,7 @@ public class AnvilRegion {
     }
 
     public List<Coord> getChunks() {
-        return new ArrayList<Coord>(chunks.keySet());
+        return new ArrayList<>(chunks.keySet());
     }
 
     public void removeChunk(Coord chunkcoord) {
@@ -117,7 +117,7 @@ public class AnvilRegion {
             regionfile.createNewFile();
         }
         RandomAccessFile raf = new RandomAccessFile(regionfile, "rw");
-        ArrayList<byte[]> chunkbuffers = new ArrayList<byte[]>();
+        ArrayList<byte[]> chunkbuffers = new ArrayList<>();
         int[] locations = new int[1024];
         int currentoffset = 2;
         for (Entry<Coord, byte[]> entry : chunks.entrySet()) {

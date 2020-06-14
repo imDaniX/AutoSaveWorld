@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 package autosaveworld.features.pluginmanager;
@@ -39,7 +39,7 @@ import java.util.Map;
 
 public class InternalUtils {
 
-    @SuppressWarnings({"deprecation"})
+    @SuppressWarnings({"unchecked", "deprecation"})
     protected void unloadPlugin(Plugin plugin) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException, InterruptedException, InvocationTargetException {
         PluginManager pluginmanager = Bukkit.getPluginManager();
         Class<? extends PluginManager> managerclass = pluginmanager.getClass();
@@ -63,7 +63,7 @@ public class InternalUtils {
         // remove from commands field
         CommandMap commandMap = (CommandMap) ReflectionUtils.getField(managerclass, "commandMap").get(pluginmanager);
         Collection<Command> commands = (Collection<Command>) ReflectionUtils.getMethod(commandMap.getClass(), "getCommands", 0).invoke(commandMap);
-        for (Command cmd : new LinkedList<Command>(commands)) {
+        for (Command cmd : new LinkedList<>(commands)) {
             if (cmd instanceof PluginIdentifiableCommand) {
                 PluginIdentifiableCommand plugincommand = (PluginIdentifiableCommand) cmd;
                 if (plugincommand.getPlugin().getName().equalsIgnoreCase(plugin.getName())) {

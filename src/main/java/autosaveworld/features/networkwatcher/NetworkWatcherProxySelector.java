@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 package autosaveworld.features.networkwatcher;
@@ -72,21 +72,20 @@ public class NetworkWatcherProxySelector extends ProxySelector {
     private Plugin getRequestingPlugin() {
         HashMap<ClassLoader, Plugin> map = getClassloaderToPluginMap();
         StackTraceElement[] stacktrace = new Exception().getStackTrace();
-        for (int i = 0; i < stacktrace.length; i++) {
-            StackTraceElement element = stacktrace[i];
+        for (StackTraceElement element : stacktrace) {
             try {
                 ClassLoader loader = Class.forName(element.getClassName(), false, getClass().getClassLoader()).getClassLoader();
                 if (map.containsKey(loader)) {
                     return map.get(loader);
                 }
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException ignored) {
             }
         }
         return null;
     }
 
     private HashMap<ClassLoader, Plugin> getClassloaderToPluginMap() {
-        HashMap<ClassLoader, Plugin> map = new HashMap<ClassLoader, Plugin>();
+        HashMap<ClassLoader, Plugin> map = new HashMap<>();
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             map.put(plugin.getClass().getClassLoader(), plugin);
         }

@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 package autosaveworld.features.backup.utils;
@@ -23,7 +23,6 @@ import autosaveworld.utils.FileUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,7 +73,7 @@ public class ZipUtils {
             MessageLogger.warn("Failed to backup file: " + srcFile.getAbsolutePath() + ", reason: canRead() returned false");
             return;
         }
-        InputStream inStream = null;
+        InputStream inStream;
         try {
             //first attempt to construct the input stream, may throw exception if file gone missing or some other thing happened
             inStream = InputStreamFactory.getFileInputStream(srcFile);
@@ -83,7 +82,7 @@ public class ZipUtils {
             return;
         }
         if (inStream != null) {
-            int firstByte = -1;
+            int firstByte;
             //check if we can read from input stream
             try {
                 firstByte = inStream.read();
@@ -115,7 +114,7 @@ public class ZipUtils {
 
             try {
                 inStream.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
     }

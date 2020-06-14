@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 package autosaveworld.features.restart;
@@ -46,7 +46,7 @@ public class AutoRestartThread extends SIntervalTaskThread {
         // wait 1 minute before starting (server can restart faster than 1 minute. Without this check AutoRestartThread will stop working after restart)
         try {
             Thread.sleep(61000);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
     }
 
@@ -71,7 +71,7 @@ public class AutoRestartThread extends SIntervalTaskThread {
                 }
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
                 }
             }
         }
@@ -84,12 +84,9 @@ public class AutoRestartThread extends SIntervalTaskThread {
             Runtime.getRuntime().addShutdownHook(new RestartShutdownHook(new File(config.autoRestartScriptPath)));
         }
 
-        SchedulerUtils.callSyncTaskAndWait(new Runnable() {
-            @Override
-            public void run() {
-                for (String command : config.autoRestartPreStopCommmands) {
-                    BukkitUtils.dispatchCommandAsConsole(command);
-                }
+        SchedulerUtils.callSyncTaskAndWait(() -> {
+            for (String command : config.autoRestartPreStopCommmands) {
+                BukkitUtils.dispatchCommandAsConsole(command);
             }
         }, 10);
 

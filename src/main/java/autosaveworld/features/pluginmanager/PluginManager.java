@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 package autosaveworld.features.pluginmanager;
@@ -85,9 +85,9 @@ public class PluginManager {
 
     private final List<String> cmds = Arrays.asList("load", "unload", "funload", "reload", "freload", "removeperm", "findcommand");
 
-    public List<String> getTabComplete(CommandSender sender, String[] args) {
+    public List<String> getTabComplete(String[] args) {
         if (args.length == 1) {
-            ArrayList<String> result = new ArrayList<String>();
+            ArrayList<String> result = new ArrayList<>();
             for (String command : cmds) {
                 if (command.startsWith(args[0])) {
                     result.add(command);
@@ -98,7 +98,7 @@ public class PluginManager {
         if (args.length >= 2) {
             if (args[0].equalsIgnoreCase("unload") || args[0].equalsIgnoreCase("reload")) {
                 String input = StringUtils.join(Arrays.copyOfRange(args, 1, args.length), " ");
-                ArrayList<String> result = new ArrayList<String>();
+                ArrayList<String> result = new ArrayList<>();
                 for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
                     if (plugin.getName().startsWith(input) && getOtherDependingPlugins(plugin).isEmpty()) {
                         result.add(plugin.getName());
@@ -108,7 +108,7 @@ public class PluginManager {
             }
             if (args[0].equalsIgnoreCase("funload") || args[0].equalsIgnoreCase("freload")) {
                 String input = StringUtils.join(Arrays.copyOfRange(args, 1, args.length), " ");
-                ArrayList<String> result = new ArrayList<String>();
+                ArrayList<String> result = new ArrayList<>();
                 for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
                     if (plugin.getName().startsWith(input)) {
                         result.add(plugin.getName());
@@ -118,7 +118,7 @@ public class PluginManager {
             }
             if (args[0].equalsIgnoreCase("load")) {
                 String input = StringUtils.join(Arrays.copyOfRange(args, 1, args.length), " ");
-                ArrayList<String> result = new ArrayList<String>();
+                ArrayList<String> result = new ArrayList<>();
                 for (File pluginfile : FileUtils.safeListFiles(GlobalConstants.getPluginsFolder())) {
                     String pluginName = getPluginName(pluginfile);
                     if (
@@ -210,7 +210,7 @@ public class PluginManager {
         if (!force) {
             List<String> depending = getOtherDependingPlugins(pmplugin);
             if (!depending.isEmpty()) {
-                MessageLogger.sendMessage(sender, "Found other plugins that depend on this one, disable them first: " + StringUtils.join(depending.toArray(new String[depending.size()]), ", "));
+                MessageLogger.sendMessage(sender, "Found other plugins that depend on this one, disable them first: " + StringUtils.join(depending.toArray(new String[0]), ", "));
                 return;
             }
         }
@@ -235,7 +235,7 @@ public class PluginManager {
         if (!force) {
             List<String> depending = getOtherDependingPlugins(pmplugin);
             if (!depending.isEmpty()) {
-                MessageLogger.sendMessage(sender, "Found other plugins that depend on this one, disable them first: " + StringUtils.join(depending.toArray(new String[depending.size()]), ", "));
+                MessageLogger.sendMessage(sender, "Found other plugins that depend on this one, disable them first: " + StringUtils.join(depending.toArray(new String[0]), ", "));
                 return;
             }
         }
@@ -286,8 +286,7 @@ public class PluginManager {
                     jarFile.close();
                     return jarpluginName;
                 }
-                jarFile.close();
-            } catch (IOException | InvalidDescriptionException e) {
+            } catch (IOException | InvalidDescriptionException ignored) {
             }
         }
         return null;
@@ -295,7 +294,7 @@ public class PluginManager {
 
 
     private List<String> getOtherDependingPlugins(Plugin plugin) {
-        ArrayList<String> others = new ArrayList<String>();
+        ArrayList<String> others = new ArrayList<>();
         for (Plugin otherplugin : Bukkit.getPluginManager().getPlugins()) {
             PluginDescriptionFile descfile = otherplugin.getDescription();
             if (

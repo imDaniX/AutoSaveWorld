@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package autosaveworld.features.backup.dropbox;
@@ -38,21 +38,21 @@ import java.util.Set;
 public class DropboxVirtualFileSystem extends VirtualFileSystem {
 
     private final DbxClientV2 dbxclient;
-    private final ArrayList<String> currentpath = new ArrayList<String>();
+    private final ArrayList<String> currentpath = new ArrayList<>();
 
     public DropboxVirtualFileSystem(DbxClientV2 dbxclient) {
         this.dbxclient = dbxclient;
     }
 
     @Override
-    public void enterDirectory0(String dirname) throws IOException {
+    public void enterDirectory0(String dirname) {
         currentpath.add(dirname);
     }
 
     @Override
     public void createDirectory0(String dirname) throws IOException {
         try {
-            dbxclient.files().createFolder(getPath(dirname));
+            dbxclient.files().createFolderV2(getPath(dirname));
         } catch (DbxException e) {
             throw wrapException(e);
         }
@@ -109,7 +109,7 @@ public class DropboxVirtualFileSystem extends VirtualFileSystem {
     @Override
     public Set<String> getEntries() throws IOException {
         try {
-            HashSet<String> files = new HashSet<String>();
+            HashSet<String> files = new HashSet<>();
             String path = getPath(null);
 
             ListFolderResult result = dbxclient.files().listFolder(path);
@@ -135,7 +135,7 @@ public class DropboxVirtualFileSystem extends VirtualFileSystem {
             long totalBytesRead = inputsteam.read(buffer);
             UploadSessionStartResult res = dbxclient.files().uploadSessionStart().uploadAndFinish(new ByteArrayInputStream(buffer, 0, (int) totalBytesRead));
             String sessionId = res.getSessionId();
-            int bytesRead = -1;
+            int bytesRead;
             while ((bytesRead = inputsteam.read(buffer)) != -1) {
                 dbxclient.files().uploadSessionAppendV2(new UploadSessionCursor(sessionId, totalBytesRead)).uploadAndFinish(new ByteArrayInputStream(buffer, 0, bytesRead));
                 totalBytesRead += bytesRead;
@@ -149,7 +149,7 @@ public class DropboxVirtualFileSystem extends VirtualFileSystem {
 
     private void delete(String name) throws IOException {
         try {
-            dbxclient.files().delete(getPath(name));
+            dbxclient.files().deleteV2(getPath(name));
         } catch (DbxException e) {
             throw wrapException(e);
         }

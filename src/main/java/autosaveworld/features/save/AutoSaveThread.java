@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package autosaveworld.features.save;
@@ -51,7 +51,7 @@ public class AutoSaveThread extends IntervalTaskThread {
             Server server = Bukkit.getServer();
             Object minecraftserver = ReflectionUtils.getField(server.getClass(), "console").get(server);
             ReflectionUtils.getField(minecraftserver.getClass(), "autosavePeriod").set(minecraftserver, 0);
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
     }
 
@@ -97,12 +97,9 @@ public class AutoSaveThread extends IntervalTaskThread {
         // Save the players
         MessageLogger.debug("Saving players");
         for (final Collection<Player> playersPart : CollectionsUtils.split(BukkitUtils.getOnlinePlayers(), 6)) {
-            SchedulerUtils.callSyncTaskAndWait(new Runnable() {
-                @Override
-                public void run() {
-                    for (Player player : playersPart) {
-                        player.saveData();
-                    }
+            SchedulerUtils.callSyncTaskAndWait(() -> {
+                for (Player player : playersPart) {
+                    player.saveData();
                 }
             });
         }
@@ -111,12 +108,7 @@ public class AutoSaveThread extends IntervalTaskThread {
         // Save the worlds
         MessageLogger.debug("Saving worlds");
         for (final World world : Bukkit.getWorlds()) {
-            SchedulerUtils.callSyncTaskAndWait(new Runnable() {
-                @Override
-                public void run() {
-                    saveWorld(world);
-                }
-            });
+            SchedulerUtils.callSyncTaskAndWait(() -> saveWorld(world));
         }
         MessageLogger.debug("Saved Worlds");
 

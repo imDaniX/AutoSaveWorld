@@ -1,17 +1,17 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+/*
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 3
+  of the License, or (at your option) any later version.
+  <p>
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  <p>
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package autosaveworld.features.backup.utils.virtualfilesystem;
@@ -43,14 +43,14 @@ public class VirtualBackupManager {
         return new Builder();
     }
 
-    private String backuppath;
-    private List<String> worlds;
-    private boolean backupplugins;
-    private List<String> otherfolders;
-    private List<String> excludefolders;
-    private int maxbackups;
-    private boolean zip;
-    private VirtualFileSystem vfs;
+    private final String backuppath;
+    private final List<String> worlds;
+    private final boolean backupplugins;
+    private final List<String> otherfolders;
+    private final List<String> excludefolders;
+    private final int maxbackups;
+    private final boolean zip;
+    private final VirtualFileSystem vfs;
 
     private VirtualBackupManager(String backuppath, List<String> worlds, boolean backupplugins, List<String> otherfolders, List<String> excludefolders, int maxbackups, boolean zip, VirtualFileSystem vfs) {
         this.backuppath = backuppath;
@@ -129,7 +129,7 @@ public class VirtualBackupManager {
             }
 
             @Override
-            public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
                 return FileVisitResult.CONTINUE;
             }
 
@@ -154,7 +154,7 @@ public class VirtualBackupManager {
             MessageLogger.exception("Failed to backup file: " + filename, e);
             try {
                 vfs.deleteFile(filename);
-            } catch (IOException ex) {
+            } catch (IOException ignored) {
             }
         }
     }
@@ -186,7 +186,7 @@ public class VirtualBackupManager {
 
         public Builder setWorldList(List<String> worlds) {
             check();
-            this.worlds = new ArrayList<String>(worlds);
+            this.worlds = new ArrayList<>(worlds);
             allset |= 2;
             return this;
         }
@@ -200,14 +200,14 @@ public class VirtualBackupManager {
 
         public Builder setOtherFolders(List<String> otherfoldes) {
             check();
-            this.otherfolders = new ArrayList<String>(otherfoldes);
+            this.otherfolders = new ArrayList<>(otherfoldes);
             allset |= 8;
             return this;
         }
 
         public Builder setExcludedFolders(List<String> excludedfolders) {
             check();
-            this.excludefolders = new ArrayList<String>(excludedfolders);
+            this.excludefolders = new ArrayList<>(excludedfolders);
             allset |= 16;
             return this;
         }
