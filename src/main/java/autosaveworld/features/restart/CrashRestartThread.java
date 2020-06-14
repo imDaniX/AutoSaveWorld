@@ -82,7 +82,7 @@ public class CrashRestartThread extends SIntervalTaskThread {
         log.log(Level.SEVERE, "Server has stopped responding");
         log.log(Level.SEVERE, "Dumping threads info");
         log.log(Level.SEVERE, "Main thread");
-        ArrayList<ThreadInfo> threads = new ArrayList<ThreadInfo>(Arrays.asList(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true)));
+        ArrayList<ThreadInfo> threads = new ArrayList<>(Arrays.asList(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true)));
         ThreadInfo mainthread = extractMainThread(threads);
         dumpThread(mainthread, log);
         log.log(Level.SEVERE, "Other threads");

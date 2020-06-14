@@ -39,8 +39,8 @@ import java.util.Map;
 
 public class InternalUtils {
 
-    @SuppressWarnings({"unchecked", "deprecation"})
-    protected void unloadPlugin(Plugin plugin) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException, InterruptedException, NoSuchMethodException, InvocationTargetException {
+    @SuppressWarnings({"deprecation"})
+    protected void unloadPlugin(Plugin plugin) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException, InterruptedException, InvocationTargetException {
         PluginManager pluginmanager = Bukkit.getPluginManager();
         Class<? extends PluginManager> managerclass = pluginmanager.getClass();
         ClassLoader pluginClassLoader = plugin.getClass().getClassLoader();
@@ -93,7 +93,7 @@ public class InternalUtils {
         }
     }
 
-    protected void loadPlugin(File pluginfile) throws UnknownDependencyException, InvalidPluginException, InvalidDescriptionException, IllegalArgumentException, IllegalAccessException {
+    protected void loadPlugin(File pluginfile) throws UnknownDependencyException, InvalidPluginException, InvalidDescriptionException, IllegalArgumentException {
         PluginManager pluginmanager = Bukkit.getPluginManager();
         // load plugin
         Plugin plugin = pluginmanager.loadPlugin(pluginfile);

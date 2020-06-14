@@ -3,24 +3,19 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 3
  * of the License, or (at your option) any later version.
- * <p>
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
  */
 
 package autosaveworld.features.backup.googledrive;
-
-import autosaveworld.features.backup.utils.virtualfilesystem.VirtualFileSystem;
-import autosaveworld.zlibs.com.google.api.client.http.InputStreamContent;
-import autosaveworld.zlibs.com.google.api.services.drive.Drive;
-import autosaveworld.zlibs.com.google.api.services.drive.model.File;
-import autosaveworld.zlibs.com.google.api.services.drive.model.ParentReference;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +25,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import autosaveworld.features.backup.utils.virtualfilesystem.VirtualFileSystem;
+import com.google.api.client.http.InputStreamContent;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.File;
+
 public class GoogleDriveVirtualFileSystem extends VirtualFileSystem {
 
     private static final String folderMimeType = "application/vnd.google-apps.folder";
@@ -37,7 +37,6 @@ public class GoogleDriveVirtualFileSystem extends VirtualFileSystem {
     private final Drive driveclient;
     private final String rootfolder;
     private ArrayList<String> currentpath = new ArrayList<>();
-
     public GoogleDriveVirtualFileSystem(Drive driveclient, String rootfolder) {
         this.driveclient = driveclient;
         this.rootfolder = rootfolder;
@@ -58,10 +57,10 @@ public class GoogleDriveVirtualFileSystem extends VirtualFileSystem {
     @Override
     protected void createDirectory0(String dirname) throws IOException {
         File folder = new File();
-        folder.setTitle(dirname);
+        folder.setName(dirname);
         folder.setMimeType("application/vnd.google-apps.folder");
-        folder.setParents(Collections.singletonList(new ParentReference().setId(getCurrentFolder())));
-        driveclient.files().insert(folder).execute();
+        folder.setParents(Collections.singletonList(getCurrentFolder()));
+        driveclient.files().create(folder).execute();
     }
 
     @Override
@@ -104,8 +103,8 @@ public class GoogleDriveVirtualFileSystem extends VirtualFileSystem {
     @Override
     public Set<String> getEntries() throws IOException {
         HashSet<String> result = new HashSet<>();
-        for (File file : driveclient.files().list().setQ(quotes(getCurrentFolder()) + " in parents").execute().getItems()) {
-            result.add(file.getTitle());
+        for (File file : driveclient.files().list().setQ(quotes(getCurrentFolder()) + " in parents").execute().getFiles()) {
+            result.add(file.getName());
         }
         return result;
     }
@@ -113,9 +112,9 @@ public class GoogleDriveVirtualFileSystem extends VirtualFileSystem {
     @Override
     public void createFile(String name, InputStream inputsteam) throws IOException {
         File file = new File();
-        file.setTitle(name);
-        file.setParents(Collections.singletonList(new ParentReference().setId(getCurrentFolder())));
-        driveclient.files().insert(file, new InputStreamContent(null, inputsteam)).execute();
+        file.setName(name);
+        file.setParents(Collections.singletonList(getCurrentFolder()));
+        driveclient.files().create(file, new InputStreamContent(null, inputsteam)).execute();
     }
 
 
@@ -128,7 +127,7 @@ public class GoogleDriveVirtualFileSystem extends VirtualFileSystem {
     }
 
     private File findFile(String dirname) throws IOException {
-        List<File> files = driveclient.files().list().setQ(quotes(getCurrentFolder()) + " in parents and title = " + quotes(dirname)).execute().getItems();
+        List<File> files = driveclient.files().list().setQ(quotes(getCurrentFolder()) + " in parents and title = " +  quotes(dirname)).execute().getFiles();
         if (files.isEmpty()) {
             return null;
         }

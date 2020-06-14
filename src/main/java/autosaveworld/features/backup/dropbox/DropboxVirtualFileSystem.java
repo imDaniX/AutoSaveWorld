@@ -18,15 +18,15 @@ package autosaveworld.features.backup.dropbox;
 
 import autosaveworld.features.backup.utils.virtualfilesystem.VirtualFileSystem;
 import autosaveworld.utils.StringUtils;
-import autosaveworld.zlibs.com.dropbox.core.DbxException;
-import autosaveworld.zlibs.com.dropbox.core.v2.DbxClientV2;
-import autosaveworld.zlibs.com.dropbox.core.v2.files.CommitInfo;
-import autosaveworld.zlibs.com.dropbox.core.v2.files.FolderMetadata;
-import autosaveworld.zlibs.com.dropbox.core.v2.files.GetMetadataErrorException;
-import autosaveworld.zlibs.com.dropbox.core.v2.files.ListFolderResult;
-import autosaveworld.zlibs.com.dropbox.core.v2.files.Metadata;
-import autosaveworld.zlibs.com.dropbox.core.v2.files.UploadSessionCursor;
-import autosaveworld.zlibs.com.dropbox.core.v2.files.UploadSessionStartResult;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.CommitInfo;
+import com.dropbox.core.v2.files.FolderMetadata;
+import com.dropbox.core.v2.files.GetMetadataErrorException;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.UploadSessionCursor;
+import com.dropbox.core.v2.files.UploadSessionStartResult;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

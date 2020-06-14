@@ -17,9 +17,9 @@
 package autosaveworld.features.backup.sftp;
 
 import autosaveworld.features.backup.utils.virtualfilesystem.VirtualFileSystem;
-import autosaveworld.zlibs.com.jcraft.jsch.ChannelSftp;
-import autosaveworld.zlibs.com.jcraft.jsch.ChannelSftp.LsEntry;
-import autosaveworld.zlibs.com.jcraft.jsch.SftpException;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.ChannelSftp.LsEntry;
+import com.jcraft.jsch.SftpException;
 
 import java.io.IOException;
 import java.io.InputStream;

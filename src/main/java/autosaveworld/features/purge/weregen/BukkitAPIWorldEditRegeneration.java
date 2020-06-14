@@ -207,27 +207,11 @@ public class BukkitAPIWorldEditRegeneration implements WorldEditRegenrationInter
 
     private static PlaceBackStage[] placeBackStages = new PlaceBackStage[]{
             // normal stage place back
-            new PlaceBackStage(new PlaceBackStage.PlaceBackCheck() {
-                @Override
-                public boolean shouldPlaceBack(BaseBlock block) {
-                    //Blocks.shouldPlaceLast(block.getBlockType())
-                    return !getPlacementPriority(block).equals(PlacementPriority.LAST) && !getPlacementPriority(block).equals(PlacementPriority.FINAL);
-                }
-            }),
+            new PlaceBackStage(block -> !getPlacementPriority(block).equals(PlacementPriority.LAST) && !getPlacementPriority(block).equals(PlacementPriority.FINAL)),
             // last stage place back
-            new PlaceBackStage(new PlaceBackStage.PlaceBackCheck() {
-                @Override
-                public boolean shouldPlaceBack(BaseBlock block) {
-                    return getPlacementPriority(block).equals(PlacementPriority.LAST);
-                }
-            }),
+            new PlaceBackStage(block -> getPlacementPriority(block).equals(PlacementPriority.LAST)),
             // final stage place back
-            new PlaceBackStage(new PlaceBackStage.PlaceBackCheck() {
-                @Override
-                public boolean shouldPlaceBack(BaseBlock block) {
-                    return getPlacementPriority(block).equals(PlacementPriority.FINAL);
-                }
-            })
+            new PlaceBackStage(block -> getPlacementPriority(block).equals(PlacementPriority.FINAL))
     };
 
     private static class PlaceBackStage {

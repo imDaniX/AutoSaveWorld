@@ -20,10 +20,10 @@ import autosaveworld.config.AutoSaveWorldConfig;
 import autosaveworld.core.AutoSaveWorld;
 import autosaveworld.features.backup.Backup;
 import autosaveworld.features.backup.utils.virtualfilesystem.VirtualBackupManager;
-import autosaveworld.zlibs.com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import autosaveworld.zlibs.com.google.api.client.json.jackson2.JacksonFactory;
-import autosaveworld.zlibs.com.google.api.services.drive.Drive;
-import autosaveworld.zlibs.com.google.api.services.drive.DriveScopes;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 
 import java.io.File;
 import java.io.FileInputStream;

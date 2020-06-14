@@ -141,7 +141,7 @@ public class AutoSaveThread extends IntervalTaskThread {
                 Object dataManager = ReflectionUtils.getMethod(worldserver.getClass(), "getDataManager", 0).invoke(worldserver);
                 ReflectionUtils.getMethod(dataManager.getClass(), "a", 0).invoke(dataManager);
             } catch (Exception e) {
-                MessageLogger.exception("Could not dump RegionFileCache", e);
+                // MessageLogger.exception("Could not dump RegionFileCache", e);
             }
         }
     }
